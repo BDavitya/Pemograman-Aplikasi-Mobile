@@ -2,7 +2,8 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
 
 import 'package:flutter/material.dart';
-import 'login.dart';
+import 'package:flutter_application_1/login.dart';
+import 'package:flutter_application_1/routes/app_routes.dart';
 
 // Fungsi utama yang menjalankan aplikasi Flutter.
 void main() {
@@ -14,9 +15,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
+      routerConfig: router,
       theme: ThemeData(primarySwatch: Colors.deepPurple),
     );
   }

@@ -9,21 +9,21 @@ class GroupPage extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       children: [
         DalamCard(
-          pathGambar: 'img/7026a5f4328e68bf3f8438ee8d414baf6950e79e.png',
+          pathGambar: 'assets/images/barita.png',
           studentId: '124230073',
           mainName: 'BARITA',
           subName: 'Davitya Setiawati',
         ),
 
         DalamCard(
-          pathGambar: 'img/9ac96d175abed5e4939c35d7d04e3e504ee6e7a8.png',
+          pathGambar: 'assets/images/rahman.png',
           studentId: '124230100',
           mainName: 'RAHMAN',
           subName: 'Muhammad Aditya',
         ),
 
         DalamCard(
-          pathGambar: 'img/9a42d0e83799ca7bc6b305021e108d38d4d23522.png',
+          pathGambar: 'assets/images/bima.png',
           studentId: '124230121',
           mainName: 'BIMA',
           subName: 'Alif Mahendra',

@@ -3,6 +3,7 @@ import 'package:flutter_application_1/tabs/first_tab.dart';
 import 'package:flutter_application_1/tabs/fourth_tab.dart';
 import 'package:flutter_application_1/tabs/second_tab.dart';
 import 'package:flutter_application_1/tabs/third_tab.dart';
+import 'package:go_router/go_router.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

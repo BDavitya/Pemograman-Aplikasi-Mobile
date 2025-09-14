@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 // import 'homepage.dart';
 
 class LoginPage extends StatefulWidget {
@@ -15,9 +15,11 @@ class _LoginPageState extends State<LoginPage> {
 
   void _login() {
     setState(() {
-      if (_usernameController.text == 'user' && _passwordController.text == '123') {
-        _message = 'Logout Successfully!';
+      if (_usernameController.text == 'user' &&
+          _passwordController.text == '123') {
+        _message = 'Login Successfully!';
         _messageColor = Color(0xFFC8DBBF);
+        context.go('/homepage');
       } else {
         _message = 'Login Failed! Incorrect Username or Password.';
         _messageColor = Colors.red[200];
@@ -32,7 +34,10 @@ class _LoginPageState extends State<LoginPage> {
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 24.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24.0,
+              vertical: 24.0,
+            ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -48,10 +53,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     child: Text(
                       _message!,
-                      style: TextStyle(
-                        color: Colors.black87,
-                        fontSize: 13,
-                      ),
+                      style: TextStyle(color: Colors.black87, fontSize: 13),
                     ),
                   ),
                 SizedBox(height: 40),
@@ -89,7 +91,10 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(20),
                         side: BorderSide(color: Colors.brown),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 32, vertical: 8),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 32,
+                        vertical: 8,
+                      ),
                     ),
                     onPressed: _login,
                     child: Text('Login'),
