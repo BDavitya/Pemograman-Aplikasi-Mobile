@@ -8,6 +8,9 @@ class GroupPage extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(16.0),
       children: [
+        Image(image: AssetImage('assets/images/Judul_Tugas.png')),
+        Image(image: AssetImage('assets/images/Judul_Kelas.png')),
+
         DalamCard(
           pathGambar: 'assets/images/barita.png',
           studentId: '124230073',
@@ -28,8 +31,16 @@ class GroupPage extends StatelessWidget {
           mainName: 'BIMA',
           subName: 'Alif Mahendra',
         ),
-        Image(
-          image: AssetImage('img/7026a5f4328e68bf3f8438ee8d414baf6950e79e.png'),
+
+        Align(
+          alignment: Alignment.centerRight,
+          child: TextButton.icon(
+            onPressed: () {
+              Navigator.pop(context); // ini nanti disesuaiin sama pop-upnya aja
+            },
+            icon: Icon(Icons.logout, color: Colors.black54, size: 24),
+            label: Text('Logout', style: TextStyle(color: Colors.black54)),
+          ),
         ),
       ],
     );
