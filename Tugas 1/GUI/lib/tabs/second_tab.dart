@@ -271,33 +271,6 @@ class _KalkulatorPageState extends State<KalkulatorPage> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.white,
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.grey[600],
-        showUnselectedLabels: true,
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.group_outlined),
-            label: 'Group',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calculate_outlined),
-            label: 'Arithmetic',
-          ),
-          BottomNavigationBarItem(
-            icon: Text('Σ', style: TextStyle(fontSize: 24)),
-            label: 'Sum of',
-          ),
-          BottomNavigationBarItem(
-            icon: Text('%', style: TextStyle(fontSize: 24)),
-            label: 'Odd/Even',
-          ),
-        ],
-      ),
     );
   }
 }

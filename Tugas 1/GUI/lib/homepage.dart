@@ -27,6 +27,21 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _selectedIndex = index;
     });
+    // Navigasi ke route sesuai tab
+    switch (index) {
+      case 0:
+        context.go('/first');
+        break;
+      case 1:
+        context.go('/second');
+        break;
+      case 2:
+        context.go('/fourth');
+        break;
+      case 3:
+        context.go('/third');
+        break;
+    }
   }
 
   @override
@@ -56,7 +71,7 @@ class _HomePageState extends State<HomePage> {
         onTap: _onItemTapped,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.group_outlined),
+            icon: Icon(Icons.group_outlined, ),
             activeIcon: Icon(Icons.group),
             label: 'Group',
           ),
