@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage> {
         onTap: _onItemTapped,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.group_outlined, ),
+            icon: Icon(Icons.group_outlined),
             activeIcon: Icon(Icons.group),
             label: 'Group',
           ),

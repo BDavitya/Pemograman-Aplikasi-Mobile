@@ -8,7 +8,6 @@ class KalkulatorPage extends StatefulWidget {
 }
 
 class _KalkulatorPageState extends State<KalkulatorPage> {
-
   String input = '';
   String result = '';
 
@@ -130,12 +129,7 @@ class _KalkulatorPageState extends State<KalkulatorPage> {
   final Color warnaOperator = Color.fromRGBO(126, 170, 101, 1);
   final Color warnaAngka = Color.fromRGBO(206, 185, 172, 1);
 
-  Widget tombol(
-    Widget label,
-    Color warna, {
-    int flex = 1,
-    String? value,
-  }) {
+  Widget tombol(Widget label, Color warna, {int flex = 1, String? value}) {
     return Expanded(
       flex: flex,
       child: Container(
@@ -146,7 +140,9 @@ class _KalkulatorPageState extends State<KalkulatorPage> {
           border: Border.all(color: Colors.black, width: 2),
         ),
         child: TextButton(
-          onPressed: () => buttonPressed(value ?? (label is Text ? (label as Text).data ?? '' : '')),
+          onPressed: () => buttonPressed(
+            value ?? (label is Text ? (label as Text).data ?? '' : ''),
+          ),
           child: label,
         ),
       ),
@@ -165,37 +161,12 @@ class _KalkulatorPageState extends State<KalkulatorPage> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(top: 12, left: 16, right: 16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: Color.fromRGBO(126, 170, 101, 1),
-                          shape: BoxShape.circle,
-                          border: Border.all(color: Colors.black, width: 2),
-                        ),
-                        child: ClipOval(
-                          child: Image.asset(
-                            'assets/images/bima.png',
-                            width: 32,
-                            height: 32,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Container(
                     width: double.infinity,
-                    constraints: BoxConstraints(
-                      minHeight: 120,
-                      maxHeight: 180,
-                    ),
+                    constraints: BoxConstraints(minHeight: 120, maxHeight: 250),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(12),
@@ -213,7 +184,10 @@ class _KalkulatorPageState extends State<KalkulatorPage> {
                             controller: TextEditingController(text: input),
                             onChanged: (val) {
                               setState(() {
-                                String digitsOnly = val.replaceAll(RegExp(r'[^0-9]'), '');
+                                String digitsOnly = val.replaceAll(
+                                  RegExp(r'[^0-9]'),
+                                  '',
+                                );
                                 if (digitsOnly.length > 15) {
                                   input = digitsOnly.substring(0, 15);
                                 } else {
@@ -231,26 +205,25 @@ class _KalkulatorPageState extends State<KalkulatorPage> {
                             ),
                           ),
                         ),
-                        if (input.replaceAll(RegExp(r'[^0-9]'), '').length > 15)
-                          Padding(
-                            padding: const EdgeInsets.only(top: 4.0),
-                            child: Text(
-                              'Input maksimal 15 angka',
-                              style: TextStyle(color: Colors.red, fontSize: 14, fontWeight: FontWeight.bold),
-                            ),
-                          ),
+
                         const SizedBox(height: 8),
                         Align(
-                          alignment: Alignment.centerRight,
+                          alignment: Alignment.center,
                           child: Container(
                             constraints: BoxConstraints(maxWidth: 320),
                             child: Column(
                               children: [
-                                Text("Hasil:", style: TextStyle(fontSize: 16, color: Colors.black54)),  
+                                Text(
+                                  "Hasil:",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.black54,
+                                  ),
+                                ),
                                 Text(
                                   result,
                                   style: TextStyle(
-                                    fontSize: result.length > 12 ? 20 : 32,
+                                    fontSize: 30,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black,
                                   ),
@@ -275,41 +248,248 @@ class _KalkulatorPageState extends State<KalkulatorPage> {
                       children: [
                         Row(
                           children: [
-                            tombol(Text('C', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaOperator, value: 'C'),
-                            tombol(Icon(Icons.text_decrease_rounded, size: 24, color: Colors.black), warnaOperator, value: '<x'),
-                            tombol(Text('%', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaOperator, value: '%'),
-                            tombol(Text('÷', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaOperator, value: '÷'),
+                            tombol(
+                              Text(
+                                'C',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              warnaOperator,
+                              value: 'C',
+                            ),
+                            tombol(
+                              Icon(
+                                Icons.text_decrease_rounded,
+                                size: 24,
+                                color: Colors.black,
+                              ),
+                              warnaOperator,
+                              value: '<x',
+                            ),
+                            tombol(
+                              Text(
+                                '%',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              warnaOperator,
+                              value: '%',
+                            ),
+                            tombol(
+                              Text(
+                                '÷',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              warnaOperator,
+                              value: '÷',
+                            ),
                           ],
                         ),
                         Row(
                           children: [
-                            tombol(Text('7', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaAngka, value: '7'),
-                            tombol(Text('8', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaAngka, value: '8'),
-                            tombol(Text('9', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaAngka, value: '9'),
-                            tombol(Text('×', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaOperator, value: '×'),
+                            tombol(
+                              Text(
+                                '7',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              warnaAngka,
+                              value: '7',
+                            ),
+                            tombol(
+                              Text(
+                                '8',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              warnaAngka,
+                              value: '8',
+                            ),
+                            tombol(
+                              Text(
+                                '9',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              warnaAngka,
+                              value: '9',
+                            ),
+                            tombol(
+                              Text(
+                                '×',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              warnaOperator,
+                              value: '×',
+                            ),
                           ],
                         ),
                         Row(
                           children: [
-                            tombol(Text('4', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaAngka, value: '4'),
-                            tombol(Text('5', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaAngka, value: '5'),
-                            tombol(Text('6', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaAngka, value: '6'),
-                            tombol(Text('-', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaOperator, value: '-'),
+                            tombol(
+                              Text(
+                                '4',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              warnaAngka,
+                              value: '4',
+                            ),
+                            tombol(
+                              Text(
+                                '5',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              warnaAngka,
+                              value: '5',
+                            ),
+                            tombol(
+                              Text(
+                                '6',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              warnaAngka,
+                              value: '6',
+                            ),
+                            tombol(
+                              Text(
+                                '-',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              warnaOperator,
+                              value: '-',
+                            ),
                           ],
                         ),
                         Row(
                           children: [
-                            tombol(Text('1', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaAngka, value: '1'),
-                            tombol(Text('2', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaAngka, value: '2'),
-                            tombol(Text('3', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaAngka, value: '3'),
-                            tombol(Text('+', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaOperator, value: '+'),
+                            tombol(
+                              Text(
+                                '1',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              warnaAngka,
+                              value: '1',
+                            ),
+                            tombol(
+                              Text(
+                                '2',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              warnaAngka,
+                              value: '2',
+                            ),
+                            tombol(
+                              Text(
+                                '3',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              warnaAngka,
+                              value: '3',
+                            ),
+                            tombol(
+                              Text(
+                                '+',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              warnaOperator,
+                              value: '+',
+                            ),
                           ],
                         ),
                         Row(
                           children: [
-                            tombol(Text('0', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaAngka, flex: 2, value: '0'),
-                            tombol(Text(',', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaAngka, value: ','),
-                            tombol(Text('=', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaOperator, value: '='),
+                            tombol(
+                              Text(
+                                '0',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              warnaAngka,
+                              flex: 2,
+                              value: '0',
+                            ),
+                            tombol(
+                              Text(
+                                ',',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              warnaAngka,
+                              value: ',',
+                            ),
+                            tombol(
+                              Text(
+                                '=',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              warnaOperator,
+                              value: '=',
+                            ),
                           ],
                         ),
                       ],

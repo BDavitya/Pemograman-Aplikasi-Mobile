@@ -67,7 +67,7 @@ class StateJumlahTotalPage extends State<JumlahTotalPage> {
     return Scaffold(
       backgroundColor: const Color(0xFFE5DED9),
       body: Padding(
-        padding: EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(4),
         child: Column(
           crossAxisAlignment:
               CrossAxisAlignment.start, // ini sementara dari kiri
@@ -76,12 +76,7 @@ class StateJumlahTotalPage extends State<JumlahTotalPage> {
               padding: EdgeInsets.all(8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    'Jumlah Total',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
-                ],
+                children: [],
               ),
             ),
             Center(
@@ -173,7 +168,7 @@ class StateJumlahTotalPage extends State<JumlahTotalPage> {
                                     tombol('C', warnaOperator);
                                   },
                                   child: Container(
-                                    height: 185,
+                                    height: 250,
                                     child: tombol('C', warnaOperator),
                                   ),
                                 ),

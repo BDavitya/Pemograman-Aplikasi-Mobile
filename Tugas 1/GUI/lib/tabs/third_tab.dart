@@ -97,28 +97,6 @@ class _GanjilGenapPageState extends State<GanjilGenapPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: warnaOperator,
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colors.black, width: 2),
-                      ),
-                      child: ClipOval(
-                        child: Image.asset(
-                          'assets/images/bima.png',
-                          width: 32,
-                          height: 32,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
                 const SizedBox(height: 12),
                 Container(
                   width: double.infinity,
@@ -234,7 +212,7 @@ class _GanjilGenapPageState extends State<GanjilGenapPage> {
                                     ),
                                   ),
                                   warnaOperator,
-                                  value: '(-)',
+                                  value: '-',
                                 ),
                               ],
                             ),
@@ -381,7 +359,7 @@ class _GanjilGenapPageState extends State<GanjilGenapPage> {
                       Expanded(
                         flex: 1,
                         child: Container(
-                          height: 230,
+                          height: 312,
                           child: tombol(
                             Text(
                               '=',
