@@ -8,16 +8,9 @@ class GanjilGenapPage extends StatefulWidget {
 }
 
 class _GanjilGenapPageState extends State<GanjilGenapPage> {
-  int _selectedIndex = 3;
   String input = '';
   String result = '';
   String errorMsg = '';
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
   void buttonPressed(String value) {
     setState(() {
@@ -80,7 +73,9 @@ class _GanjilGenapPageState extends State<GanjilGenapPage> {
           border: Border.all(color: Colors.black, width: 2),
         ),
         child: TextButton(
-          onPressed: () => buttonPressed(value ?? (label is Text ? (label as Text).data ?? '' : '')),
+          onPressed: () => buttonPressed(
+            value ?? (label is Text ? (label as Text).data ?? '' : ''),
+          ),
           child: label,
         ),
       ),
@@ -91,102 +86,113 @@ class _GanjilGenapPageState extends State<GanjilGenapPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFE5DED9),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SafeArea(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 12.0,
+            ),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 12, left: 16, right: 16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: warnaOperator,
-                          shape: BoxShape.circle,
-                          border: Border.all(color: Colors.black, width: 2),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: warnaOperator,
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.black, width: 2),
+                      ),
+                      child: ClipOval(
+                        child: Image.asset(
+                          'assets/images/bima.png',
+                          width: 32,
+                          height: 32,
+                          fit: BoxFit.cover,
                         ),
-                        child: Icon(
-                          Icons.info_outline,
-                          color: Colors.black,
-                          size: 28,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.black, width: 2),
+                  ),
+                  padding: const EdgeInsets.all(12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      SizedBox(
+                        width: double.infinity,
+                        child: TextField(
+                          minLines: 4,
+                          maxLines: 6,
+                          controller: TextEditingController(text: input),
+                          onChanged: (val) {
+                            setState(() {
+                              String digitsOnly = val.replaceAll(
+                                RegExp(r'[^0-9]'),
+                                '',
+                              );
+                              if (digitsOnly.length > 15) {
+                                errorMsg = 'Input maksimal 15 angka';
+                              } else if (digitsOnly.isEmpty && val.isNotEmpty) {
+                                errorMsg = 'Input hanya boleh angka';
+                              } else {
+                                errorMsg = '';
+                                input = val;
+                              }
+                            });
+                          },
+                          style: const TextStyle(
+                            fontSize: 20,
+                            color: Colors.black,
+                          ),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Masukkan angka...',
+                          ),
+                        ),
+                      ),
+                      if (errorMsg.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 4.0),
+                          child: Text(
+                            errorMsg,
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      const SizedBox(height: 8),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          result,
+                          style: const TextStyle(
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.black, width: 2),
-                    ),
-                    padding: const EdgeInsets.all(12),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        SizedBox(
-                          width: double.infinity,
-                          child: TextField(
-                            minLines: 4,
-                            maxLines: 6,
-                            controller: TextEditingController(text: input),
-                            onChanged: (val) {
-                              setState(() {
-                                String digitsOnly = val.replaceAll(RegExp(r'[^0-9]'), '');
-                                if (digitsOnly.length > 15) {
-                                  errorMsg = 'Input maksimal 15 angka';
-                                } else if (digitsOnly.isEmpty && val.isNotEmpty) {
-                                  errorMsg = 'Input hanya boleh angka';
-                                } else {
-                                  errorMsg = '';
-                                  input = val;
-                                }
-                              });
-                            },
-                            style: const TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
-                            ),
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: 'Masukkan angka...',
-                            ),
-                          ),
-                        ),
-                        if (errorMsg.isNotEmpty)
-                          Padding(
-                            padding: const EdgeInsets.only(top: 4.0),
-                            child: Text(
-                              errorMsg,
-                              style: TextStyle(color: Colors.red, fontSize: 14, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        const SizedBox(height: 8),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Text(
-                            result,
-                            style: const TextStyle(
-                              fontSize: 32,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                const SizedBox(height: 18),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -197,35 +203,176 @@ class _GanjilGenapPageState extends State<GanjilGenapPage> {
                           children: [
                             Row(
                               children: [
-                                tombol(Text('C', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaOperator, value: 'C'),
-                                tombol(Icon(Icons.text_decrease_rounded, size: 24, color: Colors.black), warnaOperator, value: '<x'),
-                                tombol(Text('(-)', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaOperator, value: '(-)'),
+                                tombol(
+                                  Text(
+                                    'C',
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  warnaOperator,
+                                  value: 'C',
+                                ),
+                                tombol(
+                                  Icon(
+                                    Icons.text_decrease_rounded,
+                                    size: 24,
+                                    color: Colors.black,
+                                  ),
+                                  warnaOperator,
+                                  value: '<x',
+                                ),
+                                tombol(
+                                  Text(
+                                    '(-)',
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  warnaOperator,
+                                  value: '(-)',
+                                ),
                               ],
                             ),
                             Row(
                               children: [
-                                tombol(Text('7', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaAngka, value: '7'),
-                                tombol(Text('8', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaAngka, value: '8'),
-                                tombol(Text('9', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaAngka, value: '9'),
+                                tombol(
+                                  Text(
+                                    '7',
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  warnaAngka,
+                                  value: '7',
+                                ),
+                                tombol(
+                                  Text(
+                                    '8',
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  warnaAngka,
+                                  value: '8',
+                                ),
+                                tombol(
+                                  Text(
+                                    '9',
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  warnaAngka,
+                                  value: '9',
+                                ),
                               ],
                             ),
                             Row(
                               children: [
-                                tombol(Text('4', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaAngka, value: '4'),
-                                tombol(Text('5', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaAngka, value: '5'),
-                                tombol(Text('6', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaAngka, value: '6'),
+                                tombol(
+                                  Text(
+                                    '4',
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  warnaAngka,
+                                  value: '4',
+                                ),
+                                tombol(
+                                  Text(
+                                    '5',
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  warnaAngka,
+                                  value: '5',
+                                ),
+                                tombol(
+                                  Text(
+                                    '6',
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  warnaAngka,
+                                  value: '6',
+                                ),
                               ],
                             ),
                             Row(
                               children: [
-                                tombol(Text('1', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaAngka, value: '1'),
-                                tombol(Text('2', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaAngka, value: '2'),
-                                tombol(Text('3', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaAngka, value: '3'),
+                                tombol(
+                                  Text(
+                                    '1',
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  warnaAngka,
+                                  value: '1',
+                                ),
+                                tombol(
+                                  Text(
+                                    '2',
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  warnaAngka,
+                                  value: '2',
+                                ),
+                                tombol(
+                                  Text(
+                                    '3',
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  warnaAngka,
+                                  value: '3',
+                                ),
                               ],
                             ),
                             Row(
                               children: [
-                                tombol(Text('0', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaAngka, flex: 3, value: '0'),
+                                tombol(
+                                  Text(
+                                    '0',
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  warnaAngka,
+                                  flex: 3,
+                                  value: '0',
+                                ),
                               ],
                             ),
                           ],
@@ -235,7 +382,19 @@ class _GanjilGenapPageState extends State<GanjilGenapPage> {
                         flex: 1,
                         child: Container(
                           height: 230,
-                          child: tombol(Text('=', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaOperator, flex: 1, value: '='),
+                          child: tombol(
+                            Text(
+                              '=',
+                              style: TextStyle(
+                                fontSize: 24,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            warnaOperator,
+                            flex: 1,
+                            value: '=',
+                          ),
                         ),
                       ),
                     ],
@@ -244,34 +403,7 @@ class _GanjilGenapPageState extends State<GanjilGenapPage> {
               ],
             ),
           ),
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.white,
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.grey[600],
-        showUnselectedLabels: true,
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.group_outlined),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calculate_outlined),
-            label: 'Arithmetic',
-          ),
-          BottomNavigationBarItem(
-            icon: Text('Σ', style: TextStyle(fontSize: 24)),
-            label: 'Sum of',
-          ),
-          BottomNavigationBarItem(
-            icon: Text('%', style: TextStyle(fontSize: 24)),
-            label: 'Odd/Even',
-          ),
-        ],
+        ),
       ),
     );
   }

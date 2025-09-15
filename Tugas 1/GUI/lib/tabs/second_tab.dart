@@ -8,13 +8,6 @@ class KalkulatorPage extends StatefulWidget {
 }
 
 class _KalkulatorPageState extends State<KalkulatorPage> {
-  int _selectedIndex = 1; // default ke kalkulator
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
   String input = '';
   String result = '';
@@ -33,7 +26,25 @@ class _KalkulatorPageState extends State<KalkulatorPage> {
           return;
         }
         try {
-          result = _evaluate(input);
+          String evalResult = _evaluate(input);
+          if (evalResult.contains('e')) {
+            result = '';
+            showDialog(
+              context: context,
+              builder: (ctx) => AlertDialog(
+                title: Text('Error'),
+                content: Text('Hasil terlalu besar, tidak dapat ditampilkan.'),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(ctx).pop(),
+                    child: Text('OK'),
+                  ),
+                ],
+              ),
+            );
+          } else {
+            result = evalResult;
+          }
         } catch (e) {
           result = 'Error';
         }
@@ -119,7 +130,12 @@ class _KalkulatorPageState extends State<KalkulatorPage> {
   final Color warnaOperator = Color.fromRGBO(126, 170, 101, 1);
   final Color warnaAngka = Color.fromRGBO(206, 185, 172, 1);
 
-  Widget tombol(String label, Color warna, {int flex = 1}) {
+  Widget tombol(
+    Widget label,
+    Color warna, {
+    int flex = 1,
+    String? value,
+  }) {
     return Expanded(
       flex: flex,
       child: Container(
@@ -130,15 +146,8 @@ class _KalkulatorPageState extends State<KalkulatorPage> {
           border: Border.all(color: Colors.black, width: 2),
         ),
         child: TextButton(
-          onPressed: () => buttonPressed(label),
-          child: Text(
-            label,
-            style: TextStyle(
-              fontSize: 24,
-              color: Colors.black,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+          onPressed: () => buttonPressed(value ?? (label is Text ? (label as Text).data ?? '' : '')),
+          child: label,
         ),
       ),
     );
@@ -183,6 +192,10 @@ class _KalkulatorPageState extends State<KalkulatorPage> {
                   padding: const EdgeInsets.all(16.0),
                   child: Container(
                     width: double.infinity,
+                    constraints: BoxConstraints(
+                      minHeight: 120,
+                      maxHeight: 180,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(12),
@@ -194,22 +207,59 @@ class _KalkulatorPageState extends State<KalkulatorPage> {
                       children: [
                         SizedBox(
                           width: double.infinity,
-                          child: Text(
-                            input,
+                          child: TextField(
+                            minLines: 2,
+                            maxLines: 4,
+                            controller: TextEditingController(text: input),
+                            onChanged: (val) {
+                              setState(() {
+                                String digitsOnly = val.replaceAll(RegExp(r'[^0-9]'), '');
+                                if (digitsOnly.length > 15) {
+                                  input = digitsOnly.substring(0, 15);
+                                } else {
+                                  input = val;
+                                }
+                              });
+                            },
                             style: const TextStyle(
                               fontSize: 20,
                               color: Colors.black,
                             ),
-                            textAlign: TextAlign.left,
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'Masukkan angka... (max 15 digit)',
+                            ),
                           ),
                         ),
+                        if (input.replaceAll(RegExp(r'[^0-9]'), '').length > 15)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 4.0),
+                            child: Text(
+                              'Input maksimal 15 angka',
+                              style: TextStyle(color: Colors.red, fontSize: 14, fontWeight: FontWeight.bold),
+                            ),
+                          ),
                         const SizedBox(height: 8),
-                        Text(
-                          result,
-                          style: const TextStyle(
-                            fontSize: 32,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Container(
+                            constraints: BoxConstraints(maxWidth: 320),
+                            child: Column(
+                              children: [
+                                Text("Hasil:", style: TextStyle(fontSize: 16, color: Colors.black54)),  
+                                Text(
+                                  result,
+                                  style: TextStyle(
+                                    fontSize: result.length > 12 ? 20 : 32,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 2,
+                                  textAlign: TextAlign.right,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],
@@ -225,41 +275,41 @@ class _KalkulatorPageState extends State<KalkulatorPage> {
                       children: [
                         Row(
                           children: [
-                            tombol('C', warnaOperator),
-                            tombol('<x', warnaOperator),
-                            tombol('%', warnaOperator),
-                            tombol('÷', warnaOperator),
+                            tombol(Text('C', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaOperator, value: 'C'),
+                            tombol(Icon(Icons.text_decrease_rounded, size: 24, color: Colors.black), warnaOperator, value: '<x'),
+                            tombol(Text('%', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaOperator, value: '%'),
+                            tombol(Text('÷', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaOperator, value: '÷'),
                           ],
                         ),
                         Row(
                           children: [
-                            tombol('7', warnaAngka),
-                            tombol('8', warnaAngka),
-                            tombol('9', warnaAngka),
-                            tombol('×', warnaOperator),
+                            tombol(Text('7', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaAngka, value: '7'),
+                            tombol(Text('8', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaAngka, value: '8'),
+                            tombol(Text('9', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaAngka, value: '9'),
+                            tombol(Text('×', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaOperator, value: '×'),
                           ],
                         ),
                         Row(
                           children: [
-                            tombol('4', warnaAngka),
-                            tombol('5', warnaAngka),
-                            tombol('6', warnaAngka),
-                            tombol('-', warnaOperator),
+                            tombol(Text('4', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaAngka, value: '4'),
+                            tombol(Text('5', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaAngka, value: '5'),
+                            tombol(Text('6', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaAngka, value: '6'),
+                            tombol(Text('-', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaOperator, value: '-'),
                           ],
                         ),
                         Row(
                           children: [
-                            tombol('1', warnaAngka),
-                            tombol('2', warnaAngka),
-                            tombol('3', warnaAngka),
-                            tombol('+', warnaOperator),
+                            tombol(Text('1', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaAngka, value: '1'),
+                            tombol(Text('2', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaAngka, value: '2'),
+                            tombol(Text('3', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaAngka, value: '3'),
+                            tombol(Text('+', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaOperator, value: '+'),
                           ],
                         ),
                         Row(
                           children: [
-                            tombol('0', warnaAngka, flex: 2),
-                            tombol(',', warnaAngka),
-                            tombol('=', warnaOperator),
+                            tombol(Text('0', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaAngka, flex: 2, value: '0'),
+                            tombol(Text(',', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaAngka, value: ','),
+                            tombol(Text('=', style: TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.w600)), warnaOperator, value: '='),
                           ],
                         ),
                       ],

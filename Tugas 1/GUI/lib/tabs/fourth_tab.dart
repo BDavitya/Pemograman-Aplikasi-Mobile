@@ -65,6 +65,7 @@ class StateJumlahTotalPage extends State<JumlahTotalPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFE5DED9),
       body: Padding(
         padding: EdgeInsets.all(8.0),
         child: Column(
